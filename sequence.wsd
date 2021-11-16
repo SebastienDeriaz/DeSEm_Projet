@@ -1,0 +1,31 @@
+@startuml
+
+PhyEntity --> DeseNETEntity
+DeseNETEntity -->  SVApp1_SVApp
+SVApp1_SVApp -> SVApp2_SVApp
+EVApp1_EVApp --> EVApp2_EVApp
+group boot
+SVApp1_SVApp -> DeseNETEntity : D_PublishRequest(svApp1, svGroup1)
+SVApp1_SVApp <-- DeseNETEntity
+
+
+SVApp1_SVApp -> DeseNETEntity : D_Synch.Request()
+SVApp1_SVApp <-- DeseNETEntity
+end
+
+group event
+EVApp1_EVApp -> DeseNETEntity : D_RequestEvent(evId, evData)
+EVApp1_EVApp <-- DeseNETEntity
+end
+
+group beacon reception
+DeseNETEntity -> PhyEntity : PHY_Transceiver(On)
+DeseNETEntity <-- PhyEntity
+
+
+end
+
+
+
+
+@enduml
