@@ -1,0 +1,13 @@
+{signal: [
+  {name: "On receive :"},
+  {name: 'Beacon',              wave: '010.....|..'},
+  {name: 'syncIndication',      wave: '0..10...|..'},
+  {name: "Timeslot start",      wave: '010.....|..'},
+  {name: 'svPublishIndication', wave: '0...10..|..'},
+  {name: "On slot timer :"},
+  {name: "timer",               wave: '0.......|.10.'},
+  {name: "Transmit",            wave: '0.......|..10'}
+],
+edge: [
+  'A+B 1Tclk', 'B+C 1Tclk'
+  ]}
