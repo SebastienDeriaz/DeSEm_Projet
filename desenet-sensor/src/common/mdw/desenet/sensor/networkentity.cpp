@@ -72,4 +72,20 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver & driver, const uint32_t re
 	Frame frame = Frame::useBuffer(buffer, length);
 
     // TODO: Add your code here
+
+    switch(frame.type()) {
+        case desenet::FrameType::Beacon:
+            // Blink on the LED
+            LedController::instance().flashLed(0);
+        break;
+        case desenet::FrameType::MPDU:
+
+        break;
+        default:
+        //Invalid frame
+        break;
+    }
+
+
+
 }
