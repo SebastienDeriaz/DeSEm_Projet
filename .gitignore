@@ -1,0 +1,6 @@
+desenet-sensor/documentation/*
+desenet-sensor/ide-qtcreator/build-*
+DeseNET-Testbench/*
+
+desenet-sensor/src/xf/doxygen/*
+Download/*
