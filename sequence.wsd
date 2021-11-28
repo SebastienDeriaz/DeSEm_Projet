@@ -19,10 +19,11 @@ EVApp1_EVApp <-- DeseNETEntity
 end
 
 group beacon reception
-DeseNETEntity -> PhyEntity : PHY_Transceiver(On)
-DeseNETEntity <-- PhyEntity
+/'DeseNETEntity -> PhyEntity : PHY_Transceiver(On)
+DeseNETEntity <-- PhyEntity'/
 
-
+NetworkInterfaceDriver -> NetworkEntity : onReceive()
+NetworkEntity -> ledController : instance().flashLed(0)
 end
 
 
