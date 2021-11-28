@@ -11,6 +11,8 @@ SVApp1_SVApp <-- DeseNETEntity
 
 SVApp1_SVApp -> DeseNETEntity : D_Synch.Request()
 SVApp1_SVApp <-- DeseNETEntity
+
+NetworkEntity -> TimeSlotManager : InitializeRelation(*this)
 end
 
 group event
@@ -24,6 +26,11 @@ DeseNETEntity <-- PhyEntity'/
 
 NetworkInterfaceDriver -> NetworkEntity : onReceive()
 NetworkEntity -> ledController : instance().flashLed(0)
+NetworkEntity -> TimeSlotManager : onBeaconReceived()
+activate TimeSlotManager
+TimeSlotManager -> TimeSlotManager : slot timer
+TimeSlotManager --> NetworkEntity : onTimeSlotSignal
+deactivate TimeSlotManager 
 end
 
 
