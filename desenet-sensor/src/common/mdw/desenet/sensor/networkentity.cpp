@@ -46,6 +46,7 @@ void NetworkEntity::initializeRelations(ITimeSlotManager & timeSlotManager, Netw
     _pTransceiver = &transceiver;
 
     // TODO: Add additional initialization code here
+    _pTimeSlotManager->initializeRelations(*this);
 
      // Set the receive callback between transceiver and network. Bind this pointer to member function
     transceiver.setReceptionHandler(std::bind(&NetworkEntity::onReceive, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3, std::placeholders::_4));
@@ -70,12 +71,14 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver & driver, const uint32_t re
     (void)(driver);
     (void)(receptionTime);
 	Frame frame = Frame::useBuffer(buffer, length);
-
     // TODO: Add your code here
+    //Cast the current frame to a beacon and MPDU
+    Beacon beacon(frame);
     switch(frame.type()) {
         case desenet::FrameType::Beacon:
             // Blink on the LED
             LedController::instance().flashLed(0);
+            _pTimeSlotManager->onBeaconReceived(beacon.slotDuration());
         break;
         case desenet::FrameType::MPDU:
 
@@ -84,4 +87,9 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver & driver, const uint32_t re
         //Invalid frame
         break;
     }
+}
+
+void NetworkEntity::onTimeSlotSignal(const ITimeSlotManager & timeSlotManager, const ITimeSlotManager::SIG & signal) {
+    // Flash the led when the timeslot is reached
+    LedController::instance().flashLed(0);
 }

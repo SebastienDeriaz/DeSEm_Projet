@@ -25,7 +25,7 @@ class Net;
 /**
  * @brief Implements the desenet protocol on the network layer.
  */
-class NetworkEntity {
+class NetworkEntity : ITimeSlotManager::Observer{
     friend class AbstractApplication;
     friend class Net;
 
@@ -82,6 +82,13 @@ class NetworkEntity {
     static NetworkEntity *_pInstance;       ///< Pointer to single instance.
     ITimeSlotManager *_pTimeSlotManager;    ///< Pointer to TimeSlotManager.
     NetworkInterfaceDriver *_pTransceiver;  ///< Pointer to transceiver.
+
+
+    // DeSEm SD 28.11.2021
+    /*
+    * @brief Method called from TimeSlotManager when the current timeslot is reached
+    */
+    void onTimeSlotSignal(const ITimeSlotManager & timeSlotManager, const ITimeSlotManager::SIG & signal);
 };
 
 }  // namespace sensor
