@@ -24,6 +24,9 @@ On test le type de frame
 
 
 
+## MPDU
+Écrire le sensor ID avant de faire setType() (vu qu'ils sont dans le même byte)
+
 ## Test
 1) Lancer le MeshSimulator
    1) Ouvrir le fichier DesetNET.msim
