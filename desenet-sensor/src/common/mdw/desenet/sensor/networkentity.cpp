@@ -32,6 +32,7 @@ NetworkEntity::NetworkEntity()
     : _pTimeSlotManager(nullptr), _pTransceiver(nullptr) {
     assert(!_pInstance);  // Only one instance allowed
     _pInstance = this;
+    applications.clear();
 }
 
 NetworkEntity::~NetworkEntity() {}
@@ -82,19 +83,22 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
         LedController::instance().flashLed(0);
         _pTimeSlotManager->onBeaconReceived(beacon.slotDuration());
 
-        for(int i = 0;i<)
+        std::list<AppBind>::iterator i;
+        for (i = applications.begin(); i != applications.end(); i++) {
+            i->app.svSyncIndication(beacon.networkTime());
+        }
 
-        // Appeler toutes les applications avec des
-        // svSyncIndication(b.networkTime());
+        for (i = applications.begin(); i != applications.end(); i++) {
+            if (beacon.svGroupMask().test(i->group)) {
+                // get the data from the sensor
+                //i->app.svPublishIndication(i->group, ... buffer here ...);
+                //Use a proxy to allow the app to write on the buffer
+            }
+        }
 
         // REset ou créer le MPDU
 
         // Insérer toutes les données dans le MPDU
-
-        // Parcourir la liste des groupes (définir MAX_GROUP avec un define ou
-        // constante) Tester si une application est inscrite et si le beacon a
-        // demandé à recevoir ce groupe Exécuter un svPublishIndication pour
-        // chaque application
 
         // Lorsqu'on demande un buffer, on utilise
         // SharedByteBuffer.proxy(length, maxLength) Une fois que les données
@@ -118,4 +122,15 @@ void NetworkEntity::onTimeSlotSignal(const ITimeSlotManager& timeSlotManager,
                                      const ITimeSlotManager::SIG& signal) {
     // Flash the led when the timeslot is reached
     LedController::instance().flashLed(0);
+}
+
+bool NetworkEntity::subscribeToSvGroup(AbstractApplication& app,
+                                       SvGroup group) {
+    applications.push_back(AppBind{app, group});
+    return true;
+}
+
+void NetworkEntity::unsubscribe(AbstractApplication& app) {
+    applications.remove_if(
+        [&app](NetworkEntity::AppBind ab) { return &ab.app == &app; });
 }

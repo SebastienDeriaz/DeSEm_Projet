@@ -25,7 +25,7 @@ class Net;
 /**
  * @brief Implements the desenet protocol on the network layer.
  */
-class NetworkEntity : ITimeSlotManager::Observer {
+class NetworkEntity : public ITimeSlotManager::Observer {
     friend class AbstractApplication;
     friend class Net;
 
@@ -41,6 +41,27 @@ class NetworkEntity : ITimeSlotManager::Observer {
 
     static NetworkEntity &
     instance();  ///< Returns reference to single instance.
+
+    // DeSEm SD 29.11.2021
+    /**
+     * @brief Method to allow applications to subscribe to sv groups
+     *
+     */
+    bool subscribeToSvGroup(AbstractApplication &app, SvGroup group);
+    /**
+     * @brief Checks wheter an application exists in the current list
+     * If it does, its index is returned, otherwise -1
+     */
+    void unsubscribe(AbstractApplication &app);
+
+   private:
+    // List of applications
+    struct AppBind {
+        AbstractApplication &app;
+        desenet::SvGroup group;
+    };
+    
+    std::list<AppBind> applications;
 
    protected:
     /**
@@ -83,12 +104,13 @@ class NetworkEntity : ITimeSlotManager::Observer {
     ITimeSlotManager *_pTimeSlotManager;    ///< Pointer to TimeSlotManager.
     NetworkInterfaceDriver *_pTransceiver;  ///< Pointer to transceiver.
 
-
     // DeSEm SD 28.11.2021
-    /*
-    * @brief Method called from TimeSlotManager when the current timeslot is reached
-    */
-    void onTimeSlotSignal(const ITimeSlotManager & timeSlotManager, const ITimeSlotManager::SIG & signal);
+    /**
+     * @brief Method called from TimeSlotManager when the current timeslot is
+     * reached
+     */
+    void onTimeSlotSignal(const ITimeSlotManager &timeSlotManager,
+                          const ITimeSlotManager::SIG &signal);
 };
 
 }  // namespace sensor
