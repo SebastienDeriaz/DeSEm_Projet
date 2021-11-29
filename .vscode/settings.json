@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "atomic": "cpp",
+        "deque": "cpp",
+        "functional": "cpp",
+        "list": "cpp",
+        "memory": "cpp",
+        "random": "cpp",
+        "xhash": "cpp",
+        "xmemory": "cpp",
+        "xstring": "cpp"
+    }
+}
