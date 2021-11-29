@@ -25,7 +25,7 @@ class Net;
 /**
  * @brief Implements the desenet protocol on the network layer.
  */
-class NetworkEntity : ITimeSlotManager::Observer{
+class NetworkEntity : ITimeSlotManager::Observer {
     friend class AbstractApplication;
     friend class Net;
 
