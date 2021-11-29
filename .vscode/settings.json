@@ -8,6 +8,7 @@
         "random": "cpp",
         "xhash": "cpp",
         "xmemory": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "array": "cpp"
     }
 }
