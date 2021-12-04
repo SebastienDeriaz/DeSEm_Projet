@@ -12,6 +12,7 @@
 #include "board/ledcontroller.h"
 #include "desenet/beacon.h"
 #include "desenet/frame.h"
+#include "desenet/mpdu.h"
 #include "desenet/timeslotmanager.h"
 #include "platform-config.h"
 
@@ -46,7 +47,6 @@ void NetworkEntity::initializeRelations(ITimeSlotManager& timeSlotManager,
     _pTimeSlotManager = &timeSlotManager;
     _pTransceiver = &transceiver;
 
-    // TODO: Add additional initialization code here
     //->initialize(slot_number) is called in net.cpp
     _pTimeSlotManager->initializeRelations(*this);
 
@@ -89,16 +89,24 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
         for (i = applications.begin(); i != applications.end(); i++) {
             i->app.svSyncIndication(beacon.networkTime());
         }
+        mpdu.reset(slotNumber);
 
+        desenet::MPDU::ePDUHeader ePDU;
         for (i = applications.begin(); i != applications.end(); i++) {
             if (beacon.svGroupMask().test(i->group)) {
                 // get the data from the sensor
-                //i->app.svPublishIndication(i->group, ... buffer here ...);
-                //Use a proxy to allow the app to write on the buffer
+                ePDU.fields.SVGroup_eventID = i->group;
+                ePDU.fields.type = desenet::MPDU::ePDUType::SV;
+                ePDU.fields.length =
+                    i->app.svPublishIndication(i->group, mpdu.pduBuffer);
+                if (ePDU.fields.length > 0)
+                    mpdu.commitPDU(ePDU);
+                else
+                    break;
             }
         }
 
-        // REset ou créer le MPDU
+        mpdu.finalize();
 
         // Insérer toutes les données dans le MPDU
 

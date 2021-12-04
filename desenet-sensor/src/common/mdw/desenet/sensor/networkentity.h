@@ -10,9 +10,9 @@
 #include "desenet/itimeslotmanager.h"
 #include "desenet/networkinterfacedriver.h"
 #include "platform-config.h"
+#include "desenet/mpdu.h"
 
 using desenet::NetworkInterfaceDriver;
-using namespace desenet;
 
 class LedController;
 
@@ -62,6 +62,8 @@ class NetworkEntity : public ITimeSlotManager::Observer {
     };
     
     std::list<AppBind> applications;
+
+    desenet::MPDU mpdu;
 
     desenet::SlotNumber slotNumber;
 
