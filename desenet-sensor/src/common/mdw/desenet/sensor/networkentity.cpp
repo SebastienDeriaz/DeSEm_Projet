@@ -37,7 +37,9 @@ NetworkEntity::NetworkEntity()
 
 NetworkEntity::~NetworkEntity() {}
 
-void NetworkEntity::initialize() {}
+void NetworkEntity::initialize(const desenet::SlotNumber& slotNumber) {
+    this->slotNumber = slotNumber;
+}
 
 void NetworkEntity::initializeRelations(ITimeSlotManager& timeSlotManager,
                                         NetworkInterfaceDriver& transceiver) {

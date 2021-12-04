@@ -24,7 +24,7 @@ void Net::initialize(const desenet::SlotNumber & slotNumber)
 {
     char sensorName[16];
 
-    _networkEntity.initialize();
+    _networkEntity.initialize(slotNumber);
     _timeSlotManager.initialize(slotNumber);
 
     snprintf(sensorName, 16, "Sensor %d", slotNumber);

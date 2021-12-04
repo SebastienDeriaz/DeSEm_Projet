@@ -33,7 +33,7 @@ class NetworkEntity : public ITimeSlotManager::Observer {
     NetworkEntity();
     virtual ~NetworkEntity();
 
-    void initialize();  ///< Initializes the instance.
+    void initialize(const desenet::SlotNumber & slotNumber);  ///< Initializes the instance.
     void initializeRelations(
         ITimeSlotManager &timeSlotManager,
         NetworkInterfaceDriver &transceiver);  ///< Initializes all relations
@@ -62,6 +62,8 @@ class NetworkEntity : public ITimeSlotManager::Observer {
     };
     
     std::list<AppBind> applications;
+
+    desenet::SlotNumber slotNumber;
 
    protected:
     /**
