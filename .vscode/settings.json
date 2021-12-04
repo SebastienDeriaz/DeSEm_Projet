@@ -8,6 +8,21 @@
         "random": "cpp",
         "xhash": "cpp",
         "xmemory": "cpp",
-        "xstring": "cpp"
+        "xstring": "cpp",
+        "array": "cpp",
+        "bitset": "cpp",
+        "ios": "cpp",
+        "streambuf": "cpp",
+        "vector": "cpp",
+        "xiosbase": "cpp",
+        "xlocale": "cpp",
+        "xlocnum": "cpp",
+        "xmemory0": "cpp",
+        "xtree": "cpp",
+        "xutility": "cpp",
+        "algorithm": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "string": "cpp"
     }
 }
