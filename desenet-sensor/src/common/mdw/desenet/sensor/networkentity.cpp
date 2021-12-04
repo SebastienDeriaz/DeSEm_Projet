@@ -131,7 +131,11 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
 void NetworkEntity::onTimeSlotSignal(const ITimeSlotManager& timeSlotManager,
                                      const ITimeSlotManager::SIG& signal) {
     // Flash the led when the timeslot is reached
-    LedController::instance().flashLed(0);
+    if (signal == ITimeSlotManager::SIG::OWN_SLOT_START) {
+        LedController::instance().flashLed(0);
+        // Send the MPDU frame
+        transceiver() << mpdu;
+    }
 }
 
 bool NetworkEntity::subscribeToSvGroup(AbstractApplication& app,
