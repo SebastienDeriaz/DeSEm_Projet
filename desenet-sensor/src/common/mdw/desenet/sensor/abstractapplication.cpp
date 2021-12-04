@@ -18,7 +18,7 @@ void AbstractApplication::svSyncRequest()
 bool AbstractApplication::svPublishRequest(SvGroup group)
 {
     // TODO: Register application for the provided group using the network entity
-    return false;
+    return NetworkEntity::instance().subscribeToSvGroup(*this, group);
 }
 
 void AbstractApplication::evPublishRequest(EvId id, const SharedByteBuffer & evData)

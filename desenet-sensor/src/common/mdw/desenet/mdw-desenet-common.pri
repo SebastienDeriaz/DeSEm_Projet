@@ -6,6 +6,7 @@ INCLUDEPATH += \
     "$${DESENET_COMMON_SRC_PATH}/.."
 
 HEADERS += \
+    $$PWD/mpdu.h \
     $${DESENET_COMMON_SRC_PATH}/address.hpp \
     $${DESENET_COMMON_SRC_PATH}/beacon.h \
     $${DESENET_COMMON_SRC_PATH}/desenet.h \
@@ -17,6 +18,7 @@ HEADERS += \
 
 
 SOURCES += \
+    $$PWD/mpdu.cpp \
     $${DESENET_COMMON_SRC_PATH}/beacon.cpp \
     $${DESENET_COMMON_SRC_PATH}/frame.cpp \
     $${DESENET_COMMON_SRC_PATH}/networkinterfacedriver.cpp \
