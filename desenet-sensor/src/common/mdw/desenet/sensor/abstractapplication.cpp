@@ -17,13 +17,12 @@ void AbstractApplication::svSyncRequest()
 
 bool AbstractApplication::svPublishRequest(SvGroup group)
 {
-    // TODO: Register application for the provided group using the network entity
     return NetworkEntity::instance().subscribeToSvGroup(*this, group);
 }
 
-void AbstractApplication::evPublishRequest(EvId id, const SharedByteBuffer & evData)
+void AbstractApplication::evPublishRequest(const EvId& id, const SharedByteBuffer & evData)
 {
-    // TODO: Publish event data
+    NetworkEntity::instance().eventReceived(id, evData);
 }
 
 /**
