@@ -16,6 +16,8 @@
 #include "desenet/timeslotmanager.h"
 #include "platform-config.h"
 
+#include <QDebug>
+
 using std::array;
 using std::bind;
 using std::list;
@@ -130,6 +132,7 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
 
 void NetworkEntity::onTimeSlotSignal(const ITimeSlotManager& timeSlotManager,
                                      const ITimeSlotManager::SIG& signal) {
+    (void)timeSlotManager;
     // Flash the led when the timeslot is reached
     if (signal == ITimeSlotManager::SIG::OWN_SLOT_START) {
         LedController::instance().flashLed(0);
@@ -147,4 +150,15 @@ bool NetworkEntity::subscribeToSvGroup(AbstractApplication& app,
 void NetworkEntity::unsubscribe(AbstractApplication& app) {
     applications.remove_if(
         [&app](NetworkEntity::AppBind ab) { return &ab.app == &app; });
+}
+
+void NetworkEntity::eventReceived(const EvId& id, const SharedByteBuffer& evData) {
+    //Create evPDU
+    EventElement newEvent;
+    newEvent.data = evData;
+    newEvent.id = id;
+    eventsQueue.push_back(newEvent);
+
+    // Tester la queue d'événements et mettre en place l'intégration dans le MPDU
+    error_here
 }
