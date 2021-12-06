@@ -12,6 +12,8 @@
 #include "board/interfaces/imonochromedisplay.h"
 #include "app/accelerometerapplication.h"
 #include "board/accel/accelerometer.h"
+#include "app/joystickapplication.h"
+//#include "board/joystick.h"
 #include "clockwork/clockwork.h"
 
 using desenet::sensor::Net;
@@ -39,9 +41,12 @@ public:
 #ifdef TC_MESHSIM
 	MeshSimBoard & meshSimBoard() const;
 #endif // TC_MESHSIM
-
+	// Accelerometer
 	app::AccelerometerApplication & accelerometerApplication() const;
 	board::Accelerometer & accelerometer() const;
+	// Joystick
+	app::JoystickApplication & joystickApplication() const;
+	board::Joystick & joystick() const;
 
 	Net & net() const;
 	Clockwork & clockwork() const;
