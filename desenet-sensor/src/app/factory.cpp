@@ -114,6 +114,7 @@ void Factory::buildApplication() {
     net().start();
     accelerometerApplication().start();
     joystickApplication().start();
+    joystick().start();
 }
 
 #ifdef TC_MESHSIM
