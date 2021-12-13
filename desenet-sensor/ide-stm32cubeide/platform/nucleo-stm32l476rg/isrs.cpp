@@ -24,7 +24,7 @@ extern "C" void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin)
     case NAVS_RIGHT_Pin:
         //no break;
     case NAVS_CENTER_Pin:
-        Joystick::instance().onIrq(GPIO_Pin);
+        board::Joystick::instance().onIrq(GPIO_Pin);
         break;
     case ACCEL_IRQ1_Pin:
         //no break;
