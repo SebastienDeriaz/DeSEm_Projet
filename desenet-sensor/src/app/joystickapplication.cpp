@@ -1,11 +1,12 @@
 #include "joystickapplication.h"
 
-#include <QDebug>
+//#include <QDebug>
 
 #include "factory.h"
 #include "platform-config.h"
 #include "trace/trace.h"
 #include "xf/xfevent.h"
+#include "joystick.h"
 
 using app::JoystickApplication;
 
@@ -47,7 +48,10 @@ void JoystickApplication::onPositionChange(IJoystick::Position position) {
 
 EventStatus JoystickApplication::processEvent() {
     eMainState newState = _currentState;
-	auto buffer = SharedByteBuffer::proxy(&joystickData, 1);
+    IJoystick::Position position;
+    auto buffer = SharedByteBuffer(1);
+    
+    
 
     switch (_currentState) {
         case STATE_UNKOWN:
@@ -73,9 +77,12 @@ EventStatus JoystickApplication::processEvent() {
             case STATE_INITIAL:
                 break;
             case STATE_POSITION_CHANGED:
-                qDebug() << "position changed";
-                evPublishRequest(MY_EVENT_ID, buffer);
-                qDebug() << "evPublishRequest successful";
+                position = joystick().position();
+                joystickData = position.pressedButtons;
+                buffer[0] = joystickData;
+                //qDebug() << "position changed" << joystickData;
+                evPublishRequest(EVID_JOYSTICK, buffer);
+                //qDebug() << "evPublishRequest successful";
 				GEN(XFNullTransition()); //Return to base state
                 break;
         }

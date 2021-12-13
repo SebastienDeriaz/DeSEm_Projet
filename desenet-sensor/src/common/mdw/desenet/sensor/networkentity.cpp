@@ -2,6 +2,7 @@
 
 #include <assert.h>
 
+
 #include <array>
 #include <list>
 #include <map>
@@ -16,7 +17,10 @@
 #include "desenet/timeslotmanager.h"
 #include "platform-config.h"
 
+#ifdef QT_VERSION
+#include <QByteArray>
 #include <QDebug>
+#endif
 
 using std::array;
 using std::bind;
@@ -93,22 +97,60 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
         }
         mpdu.reset(slotNumber);
 
-        desenet::MPDU::ePDUHeader ePDU;
+        desenet::MPDU::ePDUHeader svPDU;
         for (i = applications.begin(); i != applications.end(); i++) {
             if (beacon.svGroupMask().test(i->group)) {
                 // get the data from the sensor
-                ePDU.fields.SVGroup_eventID = i->group;
-                ePDU.fields.type = desenet::MPDU::ePDUType::SV;
-                ePDU.fields.length =
+                svPDU.fields.SVGroup_eventID = i->group;
+                svPDU.fields.type = desenet::MPDU::ePDUType::SV;
+#ifdef QT_VERSION
+                qDebug()
+                    << QByteArray((char*)mpdu.buffer(), mpdu.size).toHex(' ');
+#endif
+                svPDU.fields.length =
                     i->app.svPublishIndication(i->group, mpdu.pduBuffer);
-                if (ePDU.fields.length > 0)
-                    mpdu.commitPDU(ePDU);
+#ifdef QT_VERSION
+                qDebug() << "length : " << svPDU.fields.length;
+                qDebug() << "ID : " << svPDU.byte;
+                qDebug()
+                    << QByteArray((char*)mpdu.buffer(), mpdu.size).toHex(' ');
+#endif
+                if (svPDU.fields.length > 0)
+                    mpdu.commitPDU(svPDU);
                 else
                     break;
+#ifdef QT_VERSION
+                qDebug()
+                    << QByteArray((char*)mpdu.buffer(), mpdu.size).toHex(' ');
+#endif
             }
         }
 
+        // Add events to the MPDU (as much as possible)
+        desenet::MPDU::ePDUHeader evPDU;
+        while (eventsQueue.size() > 0 &&
+               eventsQueue.begin()->data.length() <= mpdu.remainingBytes()) {
+#ifdef QT_VERSION
+            qDebug() << "Send EV"
+                     << QByteArray((char*)eventsQueue.begin()->data.data(),
+                                   eventsQueue.begin()->data.length());
+#endif
+            evPDU.fields.SVGroup_eventID = eventsQueue.begin()->id;
+            evPDU.fields.type = desenet::MPDU::ePDUType::EV;
+            // Writes data to the MPDU buffer, svApplication writes itself to
+            // the buffer. Here we need to do it ourselves
+            evPDU.fields.length = mpdu.writePDU(eventsQueue.begin()->data);
+
+            if (evPDU.fields.length > 0) {
+                mpdu.commitPDU(evPDU);
+            }
+            eventsQueue.pop_front();
+        }
+
         mpdu.finalize();
+
+        // VIdage de la queue d'événements
+        eventsQueue.clear();
 
         // Insérer toutes les données dans le MPDU
 
@@ -152,13 +194,9 @@ void NetworkEntity::unsubscribe(AbstractApplication& app) {
         [&app](NetworkEntity::AppBind ab) { return &ab.app == &app; });
 }
 
-void NetworkEntity::eventReceived(const EvId& id, const SharedByteBuffer& evData) {
-    //Create evPDU
-    EventElement newEvent;
-    newEvent.data = evData;
-    newEvent.id = id;
+void NetworkEntity::eventReceived(const EvId& id,
+                                  const SharedByteBuffer& evData) {
+    // Create evPDU
+    EventElement newEvent(id, evData.copy());
     eventsQueue.push_back(newEvent);
-
-    // Tester la queue d'événements et mettre en place l'intégration dans le MPDU
-    error_here
 }

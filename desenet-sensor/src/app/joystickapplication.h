@@ -70,7 +70,6 @@ protected:
 	void onPositionChange( IJoystick::Position position );
 
 protected:
-	const desenet::EvId MY_EVENT_ID = EVID_JOYSTICK;
 	uint8_t joystickData;		///< Acceleration values read at sync indication.
 };
 

@@ -1,6 +1,8 @@
 #include "desenet/sensor/net.h"
 #include "abstractapplication.h"
 
+//#include <QDebug>
+
 using desenet::sensor::AbstractApplication;
 
 /*********************************************************************************************************
@@ -22,6 +24,7 @@ bool AbstractApplication::svPublishRequest(SvGroup group)
 
 void AbstractApplication::evPublishRequest(const EvId& id, const SharedByteBuffer & evData)
 {
+    //qDebug() << "calling eventReceived with " << QByteArray((char*)evData.data(), evData.length());
     NetworkEntity::instance().eventReceived(id, evData);
 }
 
