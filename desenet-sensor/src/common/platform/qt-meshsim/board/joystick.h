@@ -3,6 +3,7 @@
 #include "interfaces/ijoystick.h"
 #include "platform-config.h"  // Defines JOYSTICK_TRACE_VERBOSE
 #include "xf/xfreactive.h"
+#include "interfaces/ijoystickobserver.h"
 
 class MeshSimBoard;
 
