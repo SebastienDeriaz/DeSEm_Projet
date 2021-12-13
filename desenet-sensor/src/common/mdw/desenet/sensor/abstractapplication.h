@@ -50,8 +50,10 @@ namespace sensor {
          *
          * @param id        ID of the event.
          * @param evData    The actual data of the event.
+         * 
+         * 06.12.2021 SDZ : add const to id
          */
-        static void evPublishRequest(EvId id, const SharedByteBuffer & evData);
+        static void evPublishRequest(const EvId& id, const SharedByteBuffer & evData);
 
     private:
         /**

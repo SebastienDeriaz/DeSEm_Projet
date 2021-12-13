@@ -3,6 +3,8 @@
 #include <algorithm>
 #include <cstring>
 
+//#include <QDebug>
+
 #include "platform-config.h"
 
 using std::bitset;
@@ -37,7 +39,7 @@ void desenet::MPDU::reset(desenet::SlotNumber slotNumber/*const Frame & frame*/)
     setDestination(desenet::Address::fromHexString("E2E2E2E2"));
 
     // Lengths to check
-    pduBuffer = SharedByteBuffer::proxy(buffer() + EPDU_START, MPDU::SIZE - EPDU_START - MPDU::FOOTER_SIZE);
+    pduBuffer = SharedByteBuffer::proxy(buffer() + EPDU_START + 1, MPDU::SIZE - EPDU_START - 1 - MPDU::FOOTER_SIZE);
 
     // Reset the number of PDU stored in the frame and the buffer position
     pduCount = 0;
@@ -52,9 +54,22 @@ void desenet::MPDU::setSensorID(const uint8_t ID) {
     current.fields.ID = ID;
     buf[SENSOR_ID_INDEX] = current.byte;
 }
+
+size_t desenet::MPDU::writePDU(const SharedByteBuffer& buf) {
+    if(buf.length() <= pduBuffer.length()) {
+        std::memcpy(pduBuffer.data(), buf.data(), std::min(pduBuffer.length(), buf.length()));
+        return buf.length();
+    }
+    else {
+        return 0;
+    }
+}
+
+
 void desenet::MPDU::commitPDU(ePDUHeader & epdu) {
     //Write the PDU length
     buffer()[EPDU_START + pduBufferPosition] = (uint8_t)epdu.byte;
+    //qDebug() << "setting buffer byte [" << EPDU_START + pduBufferPosition<< "]: " << (uint8_t)epdu.byte;
 
     pduBufferPosition += epdu.fields.length + 1;
     pduCount++;
@@ -67,4 +82,10 @@ void desenet::MPDU::finalize() {
     buffer()[EPDU_COUNT_INDEX] = (uint8_t)pduCount;
     //Header + Type/ID + ePDU count + PDUs
     setLength(Frame::HEADER_SIZE + 2 + pduBufferPosition);
+    //qDebug() << "finalized :";
+    //qDebug() << QByteArray((char*)buffer(), 32).toHex(' ');
+}
+
+int desenet::MPDU::remainingBytes() {
+    return MPDU::SIZE - MPDU::HEADER_SIZE - MPDU::FOOTER_SIZE - pduBufferPosition;
 }

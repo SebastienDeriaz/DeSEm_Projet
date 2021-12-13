@@ -32,3 +32,12 @@ On test le type de frame
    1) Ouvrir le fichier DesetNET.msim
 2) Lancer le Testbench
 3) Démarrer les capteurs (Qt ou demo)
+
+
+
+## Joystick
+Ne pas utiliser le PublishRequest (?) pour publier l'événement (ne JAMAIS bloquer l'ISR).
+
+l'ISR va juste queue un événement pour la machine d'état
+
+C'est pour cette raison qu'on va avoir une machine d'état dans Joystick

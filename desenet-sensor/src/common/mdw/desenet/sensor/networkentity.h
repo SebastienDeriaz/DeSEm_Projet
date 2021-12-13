@@ -54,6 +54,12 @@ class NetworkEntity : public ITimeSlotManager::Observer {
      */
     void unsubscribe(AbstractApplication &app);
 
+    /**
+     * @brief Method called when an event is received
+     * 
+     */
+    void eventReceived(const EvId& id, const SharedByteBuffer& evData);
+
    private:
     // List of applications
     struct AppBind {
@@ -99,9 +105,10 @@ class NetworkEntity : public ITimeSlotManager::Observer {
     }  ///< Internal access to Transceiver
 
    protected:
-    typedef std::list<AbstractApplication *> ApplicationSyncList;
-    typedef std::array<AbstractApplication *, 16> ApplicationPublishersArray;
+    //typedef std::list<AbstractApplication *> ApplicationSyncList;
+    //typedef std::array<AbstractApplication *, 16> ApplicationPublishersArray;
     typedef std::list<EventElement> EventElementList;
+    EventElementList eventsQueue;
 
    protected:
     static NetworkEntity *_pInstance;       ///< Pointer to single instance.

@@ -1,94 +1,97 @@
 #ifndef BOARD_JOYSTICK_H
 #define BOARD_JOYSTICK_H
 
-#include "platform-config.h"			// Defines JOYSTICK_TRACE_VERBOSE
-#include "xf/xfreactive.h"
 #include "board/interfaces/ijoystickobserver.h"
+#include "platform-config.h"  // Defines JOYSTICK_TRACE_VERBOSE
+#include "xf/xfreactive.h"
 
 extern "C" void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
 
 /**
- * @brief Joystick representing the 4 way joystick with push button on the Olimex STM-103STK board.
+ * @brief Joystick representing the 4 way joystick with push button on the
+ * Olimex STM-103STK board.
  *
- * The class who wants to get informed about joystick changes needs to implement the
- * IJoystickObserver interface.
+ * The class who wants to get informed about joystick changes needs to implement
+ * the IJoystickObserver interface.
  *
  * This class implements the singleton pattern.
  */
-class Joystick : public IJoystick, public XFReactive
-{
+
+namespace board {
+class Joystick : public IJoystick, public XFReactive {
     friend void ::HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin);
-public:
-	bool initialize();									///< Initializes the joystick instance.
-	bool setObserver(IJoystickObserver * observer);		///< Sets the joystick observer.
-	void start();										///< Starts the state machine of the joystick.
-	static Joystick & instance();						///< Reference to the joystick.
-	Position position() const;							///< Actual position of the joystick.
 
-protected:
-	Joystick();
-	Joystick(const Joystick &);							///< Forbids to copy an object.
-	const Joystick & operator =(const Joystick & j) { (void)(j); return j; }	///< Forbids to copy a joystick.
+   public:
+    bool initialize();  ///< Initializes the joystick instance.
+    bool setObserver(
+        IJoystickObserver *observer);  ///< Sets the joystick observer.
+    void start();                 ///< Starts the state machine of the joystick.
+    static Joystick &instance();  ///< Reference to the joystick.
+    Position position() const;    ///< Actual position of the joystick.
 
-	PressedButtons _readActualPosition() const;         ///< Reads the button state on the corresponding GPIOs.
+   protected:
+    Joystick();
+    Joystick(const Joystick &);  ///< Forbids to copy an object.
+    const Joystick &operator=(const Joystick &j) {
+        (void)(j);
+        return j;
+    }  ///< Forbids to copy a joystick.
 
-	// From XFReactive
-	virtual EventStatus processEvent();
+    PressedButtons _readActualPosition()
+        const;  ///< Reads the button state on the corresponding GPIOs.
 
-	// Method(s) called in state machine
-	void doCheckJoystickState();
+    // From XFReactive
+    virtual EventStatus processEvent();
 
-	static void traceOut(const char * const format, ...);
+    // Method(s) called in state machine
+    void doCheckJoystickState();
 
-	void onIrq(uint16_t GPIO_Pin);
+    static void traceOut(const char *const format, ...);
 
-protected:
-	bool _bInitialized;
-	IJoystickObserver * _pObserver;
-	Position _position;
+    void onIrq(uint16_t GPIO_Pin);
 
-	/**
-	 * Values to compare measured values by the ADC
-	 */
-	typedef enum
-	{
-		UP_VALUE        = 960,
-		DOWN_VALUE      = 190,
-		LEFT_VALUE      = 1990,
-		RIGHT_VALUE     = 470,
-		DIVERSION       =  30
-	}	eValue;
+   protected:
+    bool _bInitialized;
+    IJoystickObserver *_pObserver;
+    Position _position;
 
-	/**
-	 * Custom event identifier(s)
-	 */
-	typedef enum
-	{
-	    Event_IRQ = 1
-	} eEventId;
+    /**
+     * Values to compare measured values by the ADC
+     */
+    typedef enum {
+        UP_VALUE = 960,
+        DOWN_VALUE = 190,
+        LEFT_VALUE = 1990,
+        RIGHT_VALUE = 470,
+        DIVERSION = 30
+    } eValue;
 
-	/**
-	 * Timeout identifier(s) for this state machine
-	 */
-	typedef enum
-	{
-		Timeout_CHECK_JOYSTICK_id = 1	///< Timeout id for CHECK_JOYSTICK state
-	} eTimeoutId;
+    /**
+     * Custom event identifier(s)
+     */
+    typedef enum { Event_IRQ = 1 } eEventId;
 
-	/**
-	 * Enumeration used to have a unique identifier for every
-	 * state in the state machine.
-	 */
-	typedef enum
-	{
-		STATE_UNKOWN = 0,			///< Unknown state
-		STATE_INITIAL = 1,			///< Initial state
-		STATE_CHECK_JOYSTICK = 2	///< LED_ON state
-	} eMainState;
+    /**
+     * Timeout identifier(s) for this state machine
+     */
+    typedef enum {
+        Timeout_CHECK_JOYSTICK_id = 1  ///< Timeout id for CHECK_JOYSTICK state
+    } eTimeoutId;
 
-	eMainState _currentState;		///< Attribute indicating currently active state
-	bool _timeoutActive;
+    /**
+     * Enumeration used to have a unique identifier for every
+     * state in the state machine.
+     */
+    typedef enum {
+        STATE_UNKOWN = 0,         ///< Unknown state
+        STATE_INITIAL = 1,        ///< Initial state
+        STATE_CHECK_JOYSTICK = 2  ///< LED_ON state
+    } eMainState;
+
+    eMainState _currentState;  ///< Attribute indicating currently active state
+    bool _timeoutActive;
 };
 
-#endif // BOARD_JOYSTICK_H
+}  // namespace board
 
+#endif  // BOARD_JOYSTICK_H

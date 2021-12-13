@@ -3,6 +3,7 @@
 
 #include "frame.h"
 #include "types.h"
+#include <string.h>
 
 namespace desenet {
 
@@ -77,6 +78,20 @@ class MPDU : public Frame {
      *
      */
     size_t pduBufferPosition;
+
+    /**
+     * @brief Returns the remaining bytes left in the MPDU
+     * 
+     */
+    int remainingBytes();
+
+    /**
+     * @brief Copies the bytes from a buffer (evPDU) to memory
+     * 
+     * @param buf buffer (SharedByteBuffer)
+     * @return number of bytes written
+     */
+    size_t writePDU(const SharedByteBuffer& buf);
 
     /**
      * @brief Commits an ePDU and sets the corresponding header
