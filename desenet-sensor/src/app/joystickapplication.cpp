@@ -1,7 +1,5 @@
 #include "joystickapplication.h"
 
-//#include <QDebug>
-
 #include "factory.h"
 #include "platform-config.h"
 #include "trace/trace.h"
@@ -80,9 +78,7 @@ EventStatus JoystickApplication::processEvent() {
                 position = joystick().position();
                 joystickData = position.pressedButtons;
                 buffer[0] = joystickData;
-                //qDebug() << "position changed" << joystickData;
                 evPublishRequest(EVID_JOYSTICK, buffer);
-                //qDebug() << "evPublishRequest successful";
 				GEN(XFNullTransition()); //Return to base state
                 break;
         }

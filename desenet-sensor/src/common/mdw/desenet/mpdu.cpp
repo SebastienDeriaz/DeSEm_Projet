@@ -3,8 +3,6 @@
 #include <algorithm>
 #include <cstring>
 
-//#include <QDebug>
-
 #include "platform-config.h"
 
 using std::bitset;
@@ -69,7 +67,6 @@ size_t desenet::MPDU::writePDU(const SharedByteBuffer& buf) {
 void desenet::MPDU::commitPDU(ePDUHeader & epdu) {
     //Write the PDU length
     buffer()[EPDU_START + pduBufferPosition] = (uint8_t)epdu.byte;
-    //qDebug() << "setting buffer byte [" << EPDU_START + pduBufferPosition<< "]: " << (uint8_t)epdu.byte;
 
     pduBufferPosition += epdu.fields.length + 1;
     pduCount++;
@@ -82,8 +79,6 @@ void desenet::MPDU::finalize() {
     buffer()[EPDU_COUNT_INDEX] = (uint8_t)pduCount;
     //Header + Type/ID + ePDU count + PDUs
     setLength(Frame::HEADER_SIZE + 2 + pduBufferPosition);
-    //qDebug() << "finalized :";
-    //qDebug() << QByteArray((char*)buffer(), 32).toHex(' ');
 }
 
 int desenet::MPDU::remainingBytes() {

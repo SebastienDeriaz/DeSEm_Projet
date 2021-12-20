@@ -17,11 +17,6 @@
 #include "desenet/timeslotmanager.h"
 #include "platform-config.h"
 
-#ifdef QT_VERSION
-#include <QByteArray>
-#include <QDebug>
-#endif
-
 using std::array;
 using std::bind;
 using std::list;
@@ -103,26 +98,12 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
                 // get the data from the sensor
                 svPDU.fields.SVGroup_eventID = i->group;
                 svPDU.fields.type = desenet::MPDU::ePDUType::SV;
-#ifdef QT_VERSION
-                qDebug()
-                    << QByteArray((char*)mpdu.buffer(), mpdu.size).toHex(' ');
-#endif
                 svPDU.fields.length =
                     i->app.svPublishIndication(i->group, mpdu.pduBuffer);
-#ifdef QT_VERSION
-                qDebug() << "length : " << svPDU.fields.length;
-                qDebug() << "ID : " << svPDU.byte;
-                qDebug()
-                    << QByteArray((char*)mpdu.buffer(), mpdu.size).toHex(' ');
-#endif
                 if (svPDU.fields.length > 0)
                     mpdu.commitPDU(svPDU);
                 else
                     break;
-#ifdef QT_VERSION
-                qDebug()
-                    << QByteArray((char*)mpdu.buffer(), mpdu.size).toHex(' ');
-#endif
             }
         }
 
@@ -130,11 +111,6 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
         desenet::MPDU::ePDUHeader evPDU;
         while (eventsQueue.size() > 0 &&
                eventsQueue.begin()->data.length() <= mpdu.remainingBytes()) {
-#ifdef QT_VERSION
-            qDebug() << "Send EV"
-                     << QByteArray((char*)eventsQueue.begin()->data.data(),
-                                   eventsQueue.begin()->data.length());
-#endif
             evPDU.fields.SVGroup_eventID = eventsQueue.begin()->id;
             evPDU.fields.type = desenet::MPDU::ePDUType::EV;
             // Writes data to the MPDU buffer, svApplication writes itself to

@@ -7,9 +7,6 @@
 #include "desenet/networkinterfacedriver.h"
 #include "platform-config.h"
 
-
-//#include <QDebug>
-
 using desenet::NetworkInterfaceDriver;
 using std::make_shared;
 using std::memcpy;
@@ -134,8 +131,6 @@ const char *desenet::Frame::toString(const uint8_t *const buffer,
 NetworkInterfaceDriver &desenet::operator<<(NetworkInterfaceDriver &driver,
                                             const desenet::Frame &frame) {
 
-//qDebug() << "Sending : ";
-//             qDebug() << QByteArray((char *)frame.buffer(), frame.length()).toHex(' ');
     std::cout << "Sending : ";
     for(int i = 0;i<frame.length();i++) {
         std::cout << " " << std::hex << (0u+((unsigned char*)frame.buffer())[i]);
