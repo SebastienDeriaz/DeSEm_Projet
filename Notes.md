@@ -41,3 +41,7 @@ Ne pas utiliser le PublishRequest (?) pour publier l'événement (ne JAMAIS bloq
 l'ISR va juste queue un événement pour la machine d'état
 
 C'est pour cette raison qu'on va avoir une machine d'état dans Joystick
+
+
+## Rapport
+
