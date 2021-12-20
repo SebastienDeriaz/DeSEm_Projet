@@ -13,3 +13,7 @@ desenet-sensor/ide-stm32cubeide/.settings/language.settings.xml
 desenet-sensor/ide-stm32cubeide/launch/desenet-sensor Debug_Full.launch
 desenet-sensor/ide-stm32cubeide/platform/nucleo-stm32l476rg/isrs.cpp
 desenet-sensor/ide-stm32cubeide/platform/nucleo-stm32l476rg/platform-config.h
+*.aux
+*.log
+*.gz
+*.toc
