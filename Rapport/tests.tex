@@ -1,0 +1,79 @@
+\documentclass[DeseNET_Sebastien_Deriaz]{subfiles}
+
+
+\begin{document}
+\section{Tests}
+\renewcommand{\arraystretch}{1.3}
+\subsection{Simulation}
+\begin{center}
+\begin{tabular}{lcl}
+Description & État & Remarque\\\hline\hline
+\textbf{Beacon}\\
+Réception du beacon & \greencheck \\
+Led allumée (simulation uniquement) & \greencheck\\\hline
+\textbf{Joystick}\\
+Test de chaque bouton (un à la fois) & \greencheck\\
+Appui et relâchement du joystick dans un seul cycle\footnotemark & \greencheck\\
+Valeurs correctes lors du remplissage de la queue d'événements\footnotemark & \redcross\\\hline
+\textbf{Accéléromètre}\\
+Test en déplaçant la fenêtre en haut à droite et en haut à gauche & \greencheck\\\hline
+\textbf{svPDU}\\
+Formation correcte du header & \greencheck\\
+Données correctes & \greencheck\\\hline
+\textbf{evPDU}\\
+Formation correcte du header & \greencheck\\
+Données correctes & \greencheck\\\hline
+
+\textbf{Transmission}\\
+Aucune erreur lors de la réponse vide & \greencheck\\
+Aucune erreur lors de l'envoi d'un svPDU & \greencheck\\
+Aucune erreur lors de l'envoi de svPDU et d'un ou plusieurs evPDU & \greencheck\\
+Envoi des données au bon moment (timeslot) & \redcross & Erreurs occasionnelles
+\end{tabular}
+\end{center}
+Comme la queue d'événements est effacée à chaque envoi des données, il est normal que des données soient perdues si trop d'événements ont étés enregistrés.
+
+
+\footnotetext[1]{L'appui du joystick ne devrait pas être affiché dans le testbench}
+\footnotetext[2]{Testé en appuyant à répétition lors d'un cycle}
+
+
+
+
+
+
+
+
+
+\subsection{Carte}
+\begin{center}
+\begin{tabular}{lcl}
+Description & État & Remarque\\\hline\hline
+\textbf{Beacon}\\
+Réception du beacon\footnotemark & \greencheck \\\hline
+\textbf{Joystick}\\
+Test de chaque bouton (un à la fois) & \greencheck\\
+Test de plusieurs boutons simultanés & \greencheck\\
+Appui et relâchement du joystick dans un seul cycle & \greencheck\\
+Valeurs correctes lors du remplissage de la queue d'événements & \redcross\\
+
+\hline
+\textbf{Accéléromètre}\\
+Positionnement de la carte sur son côté / à l'envers & \greencheck\\\hline
+\textbf{svPDU}\\
+Formation correcte du header & \greencheck\\
+Données correctes & \greencheck\\\hline
+\textbf{evPDU}\\
+Formation correcte du header & \greencheck\\
+Données correctes & \greencheck\\\hline
+
+\textbf{Transmission}\\
+Aucune erreur lors de la réponse vide & \greencheck\\
+Aucune erreur lors de l'envoi d'un svPDU & \greencheck\\
+Aucune erreur lors de l'envoi de svPDU et d'un ou plusieurs evPDU & \greencheck\\
+Envoi des données au bon moment (timeslot) & \redcross & Erreurs occasionnelles
+\end{tabular}
+\end{center}
+
+\footnotetext{Vérifié avec un envoi sur le port série}
+\end{document}

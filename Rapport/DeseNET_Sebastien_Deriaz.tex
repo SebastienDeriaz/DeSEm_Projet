@@ -1,0 +1,61 @@
+\documentclass[]{article}
+
+
+\usepackage[french]{babel}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+\usepackage[margin=2cm,includehead]{geometry}
+\usepackage{lastpage}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{subfiles}
+\usepackage[bottom]{footmisc}
+
+% Other packages
+\usepackage{pifont}
+\newcommand{\greencheck}{\textcolor{ForestGreen}{\ding{51}}}
+\newcommand{\redcross}{\textcolor{OrangeRed}{\ding{53}}}
+
+\fancyhead[L]{\includegraphics[height=8mm]{mse-full-cropped.pdf}}
+
+\pagestyle{fancy}
+\fancyfoot[C]{\thepage\ / \pageref{LastPage}}
+
+\begin{document}
+\thispagestyle{empty}
+
+\begin{center}
+\includegraphics[height=8mm]{mse-full-cropped.pdf}
+\hfill
+\includegraphics[height=8mm]{HES-SO_logo_Pantone.pdf}
+\end{center}
+\vfill
+\begin{center}
+\Huge Projet DeseNET\\
+\end{center}
+\begin{center}
+\large
+\begin{tabular}{ll}
+Département : & EIE\\
+Unité d'enseignement : & MA\_DeSEm
+\end{tabular}
+\end{center}
+\vfill
+\begin{center}
+\large
+\begin{tabular}{ll}
+\Large Auteur & \Large Sébastien Deriaz\\
+Professeurs & Medard Rieder\\ 
+Assistants & Thomas Sterren\\
+Date &\today
+\end{tabular}
+\end{center}
+\vfill
+
+\pagebreak
+\tableofcontents
+\pagebreak
+
+\subfile{introduction}
+\subfile{tests}
+
+\end{document}
