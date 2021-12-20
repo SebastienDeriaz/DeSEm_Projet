@@ -44,4 +44,13 @@ C'est pour cette raison qu'on va avoir une machine d'état dans Joystick
 
 
 ## Rapport
+Bien bien documenter les tests
 
+Bien documenter le code
+
+
+## Rendu
+1) Dans le dossier desenet-sensor :
+   1) ``ide-qtcreator`` sans les build
+   2) ``ide-stm32...`` sans le debug full
+   3) ``src``
