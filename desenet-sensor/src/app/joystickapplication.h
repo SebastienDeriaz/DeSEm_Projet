@@ -65,12 +65,10 @@ protected:	// State machine stuff
 protected:
 	board::Joystick & joystick();
 
-	void _readJoystickValue();				///< Reads actual values from accelerometer
-
 	void onPositionChange( IJoystick::Position position );
 
 protected:
-	uint8_t joystickData;		///< Acceleration values read at sync indication.
+	uint8_t joystickData;
 };
 
 } // namespace app

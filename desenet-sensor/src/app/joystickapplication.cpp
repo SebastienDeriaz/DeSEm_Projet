@@ -96,7 +96,3 @@ EventStatus JoystickApplication::processEvent() {
 board::Joystick& JoystickApplication::joystick() {
     return Factory::instance().joystick();
 }
-
-void JoystickApplication::_readJoystickValue() {
-    // accelerometer().getValue(&joystickData);
-}
