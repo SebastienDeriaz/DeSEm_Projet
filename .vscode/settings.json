@@ -23,6 +23,13 @@
         "algorithm": "cpp",
         "istream": "cpp",
         "ostream": "cpp",
-        "string": "cpp"
+        "string": "cpp",
+        "initializer_list": "cpp",
+        "iterator": "cpp",
+        "queue": "cpp",
+        "type_traits": "cpp",
+        "typeinfo": "cpp",
+        "utility": "cpp",
+        "xlocinfo": "cpp"
     }
 }
