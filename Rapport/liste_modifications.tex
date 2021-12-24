@@ -1,0 +1,64 @@
+\begin{enumerate}
+\item \verb!platform_config.h! (\verb!ide-stm32cubeide\platform\nucleo-stm32l476rg\platform-config.h!)
+\begin{enumerate}
+  \item Changement du \verb!DESENET_SLOT_NUMBER!
+\end{enumerate}
+\item \verb!factory.h! (\verb!src\app!)
+\begin{enumerate}
+  \item Ajout du joystick (plus include pour \verb!joystickapplication.h!)
+\end{enumerate}
+\item \verb!factory.cpp! (\verb!src\app!)
+\begin{enumerate}
+  \item Include de \verb!joystick.h!
+  \item Initialisation du joystick (+ \verb!setObserver!)
+  \item Start Joystick / joystickApplication
+  \item méthodes \verb!joystickApplication()! et \verb!joystick()!
+\end{enumerate}
+\item \verb!abstractapplication.cpp! (\verb!src\common\mdw\desenet\sensor!)
+\begin{enumerate}
+  \item Ajout de \verb!subscribeToSvGroup()! dans \verb!svPublishRequest!
+  \item Ajout de \verb!eventReceived()! dans \verb!evPublishRequest!
+\end{enumerate}
+\item \verb!abstractapplication.h! (\verb!src\common\mdw\desenet\sensor!)
+\begin{enumerate}
+  \item Ajout \verb!const! a l'event id
+\end{enumerate}
+\item \verb!net.cpp! (\verb!src\common\mdw\desenet\sensor!)
+\begin{enumerate}
+  \item Ajout de \verb!slotNumber! à l'initialisation de \verb!networkentity!
+\end{enumerate}
+\item \verb!joystick.cpp! (\verb!src\common\platform\nucleo-stm32l476rg\board!)
+\begin{enumerate}
+  \item Ajout du namespace \verb!board!
+\end{enumerate}
+\item \verb!joystick.h! (\verb!src\common\platform\nucleo-stm32l476rg\board!)
+\begin{enumerate}
+  \item Ajout du namespace \verb!board!
+\end{enumerate}
+\item \verb!joystick.cpp! (\verb!src\common\platform\qt-meshsim\board!)
+\begin{enumerate}
+  \item Ajout du namespace \verb!board!
+\end{enumerate}
+\item \verb!joystick.h! (\verb!src\common\platform\qt-meshsim\board!)
+\begin{enumerate}
+  \item Ajout du namespace \verb!board!
+\end{enumerate}
+\item \verb!networkentity.h! (\verb!src\common\mdw\desenet\sensor!)
+\begin{enumerate}
+  \item Ajout de l'include pour \verb!mpdu.h!
+  \item Héritage de \verb!ITimeSlotManager! + Ajout de la méthode virtuelle \verb!onTimeSlotSignal!
+  \item Ajout de paramètre \verb!slotNumber! à initalize
+  \item Ajout des méthodes \verb!subscribeToSvGroup! et \verb!unsubscribe!
+  \item Ajout de la méthode \verb!eventReceived!
+  \item Liste des applications et struct \verb!AppBind!
+\end{enumerate}
+\item \verb!networkentity.cpp! (\verb!src\common\mdw\desenet\sensor!)
+\begin{enumerate}
+  \item Ajout de \verb!slotNumber! dans l'initialisation
+  \item Initialisation des relations de \verb!pTimeSlotManager!
+  \item Complétion de la méthode \verb!onReceive!
+  \item Ajout de la méthode virtuelle \verb!onTimeSlotSignal!
+  \item Ajout des méthodes \verb!subscribeToSvGroup! et \verb!unsubscribe!
+  \item Ajout de la méthode \verb!eventReceived!
+\end{enumerate}
+\end{enumerate}
