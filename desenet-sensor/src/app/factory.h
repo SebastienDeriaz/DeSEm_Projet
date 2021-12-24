@@ -12,8 +12,7 @@
 #include "board/interfaces/imonochromedisplay.h"
 #include "app/accelerometerapplication.h"
 #include "board/accel/accelerometer.h"
-#include "app/joystickapplication.h"
-//#include "board/joystick.h"
+#include "app/joystickapplication.h" // DeseNET lab - add
 #include "clockwork/clockwork.h"
 
 using desenet::sensor::Net;
@@ -44,7 +43,7 @@ public:
 	// Accelerometer
 	app::AccelerometerApplication & accelerometerApplication() const;
 	board::Accelerometer & accelerometer() const;
-	// Joystick
+	// Joystick (Added for DeseNET lab)
 	app::JoystickApplication & joystickApplication() const;
 	board::Joystick & joystick() const;
 

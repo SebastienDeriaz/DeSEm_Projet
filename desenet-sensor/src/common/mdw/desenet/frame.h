@@ -5,7 +5,7 @@
 
 #include "platform-config.h"
 #include "types.h"
-#include <iostream>
+//#include <iostream>
 
 namespace board {
 class NrfTransceiver;
@@ -226,7 +226,6 @@ class Frame {
      */
    public:
     std::uint8_t *buffer() { return buffer_.data(); }
-    uint8_t size = 32;
 
     /**
      * @brief Returns a readonly pointer to the buffer.

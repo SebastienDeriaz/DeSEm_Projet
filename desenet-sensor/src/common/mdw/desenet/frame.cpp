@@ -131,11 +131,6 @@ const char *desenet::Frame::toString(const uint8_t *const buffer,
 NetworkInterfaceDriver &desenet::operator<<(NetworkInterfaceDriver &driver,
                                             const desenet::Frame &frame) {
 
-    std::cout << "Sending : ";
-    for(int i = 0;i<frame.length();i++) {
-        std::cout << " " << std::hex << (0u+((unsigned char*)frame.buffer())[i]);
-    }
-    std::cout << std::endl;
     driver.transmit(frame.buffer(), frame.length());
     return driver;
 }

@@ -22,6 +22,7 @@ enum ISR_Priorities
 
 static const CycleDuration BEACON_INTERVAL_IN_MS = 2000;	// Beacon interval. Needs to be greater then 'SLOT_DURATION_IN_MS * (desenet::MAX_SLOT_NUMBER + 2)'
 static const SlotDuration SLOT_DURATION_IN_MS = 100;		// Time slot for a Sensor within it must send its frame(s) to the Gateway
+// DeseNET lab - Changed to 12 (everyone in the class has a specific number)
 static const SlotNumber DESENET_SLOT_NUMBER = 12;			// From 0 to 'desenet::MAX_SLOT_NUMBER'
 
 const uint8_t SVGROUP_ACCELEROMETER = 2;		///< Sampled values group for accelerometer values.

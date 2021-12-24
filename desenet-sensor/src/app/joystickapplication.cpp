@@ -71,6 +71,7 @@ EventStatus JoystickApplication::processEvent() {
 
     if (newState != _currentState) {
         switch (newState) {
+            case STATE_ROOT:
             case STATE_UNKOWN:
             case STATE_INITIAL:
                 break;

@@ -72,7 +72,8 @@ void Factory::buildApplication() {
     clockwork().initialize();
     accelerometer().initialize();
     joystick().initialize();
-    joystick().setObserver(&joystickApplication());
+    // Link the joystick application with the joystick itself
+    joystick().setObserver(&joystickApplication()); 
     net().initialize(__SLOT_NUMBER);
 #ifdef USE_DISPLAY
     display().initialize();
