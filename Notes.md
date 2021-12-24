@@ -20,6 +20,7 @@ On crast d'abord les données en frame. Comme on ne peut pas déclarer de variab
 on cast également en beacon (et plus tard en MultiPDU) pour pouvoir utiliser ces types de données.
 
 On test le type de frame
+
 - Si c'est un beacon, on fait clignoter la led et on appelle le ``onBeaconReceived`` du time slot manager
 
 
@@ -28,6 +29,7 @@ On test le type de frame
 Écrire le sensor ID avant de faire setType() (vu qu'ils sont dans le même byte)
 
 ## Test
+
 1) Lancer le MeshSimulator
    1) Ouvrir le fichier DesetNET.msim
 2) Lancer le Testbench
@@ -36,6 +38,7 @@ On test le type de frame
 
 
 ## Joystick
+
 Ne pas utiliser le PublishRequest (?) pour publier l'événement (ne JAMAIS bloquer l'ISR).
 
 l'ISR va juste queue un événement pour la machine d'état
@@ -44,6 +47,7 @@ C'est pour cette raison qu'on va avoir une machine d'état dans Joystick
 
 
 ## Rapport
+
 Bien bien documenter les tests
 
 Bien documenter le code
