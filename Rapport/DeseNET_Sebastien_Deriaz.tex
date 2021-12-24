@@ -4,11 +4,15 @@
 \usepackage[french]{babel}
 \usepackage{graphicx}
 \usepackage{fancyhdr}
-\usepackage[margin=2cm,includehead]{geometry}
+\usepackage[margin=2.5cm,includehead]{geometry}
 \usepackage{lastpage}
 \usepackage[dvipsnames]{xcolor}
 \usepackage{subfiles}
 \usepackage[bottom]{footmisc}
+\usepackage{float}
+\usepackage{epsfig}
+
+\usepackage[outdir=./]{epstopdf}
 
 % Other packages
 \usepackage{pifont}
@@ -46,7 +50,7 @@ Unité d'enseignement : & MA\_DeSEm
 \Large Auteur & \Large Sébastien Deriaz\\
 Professeurs & Medard Rieder\\ 
 Assistants & Thomas Sterren\\
-Date &\today
+Date & \today
 \end{tabular}
 \end{center}
 \vfill
@@ -56,6 +60,12 @@ Date &\today
 \pagebreak
 
 \subfile{introduction}
+\pagebreak
+\subfile{modifications}
+\subfile{fonctionnement}
+\pagebreak
 \subfile{tests}
+\pagebreak
+\subfile{conclusion}
 
 \end{document}

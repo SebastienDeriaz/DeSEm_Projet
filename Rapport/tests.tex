@@ -3,39 +3,44 @@
 
 \begin{document}
 \section{Tests}
+Les tests seront réalisés en deux parties
+\begin{enumerate}
+\item Test avec le simulateur
+\item Test sur la carte
+\end{enumerate}
+Le simulateur permet de trouver rapidement les premières erreurs et de mettre en place le fonctionnement du récepteur ainsi que l'envoi des trames.\\
+Les tests sur la carte permettent de finaliser le système et de détecter les erreurs liées au système embarqué (au lieu du système simulé).\\
+Les tableaux suivants montrent l'état du système dans sa version finale.
 \renewcommand{\arraystretch}{1.3}
 \subsection{Simulation}
+\label{sec_simulation}
 \begin{center}
-\begin{tabular}{lcl}
+\begin{tabular}{p{9cm}cp{5.5cm}}
 Description & État & Remarque\\\hline\hline
 \textbf{Beacon}\\
-Réception du beacon & \greencheck \\
-Led allumée (simulation uniquement) & \greencheck\\\hline
+Réception du beacon  (envoi d'un message dans le port série lorsque le beacon est reçu) & \greencheck \\
+Led allumée (clignotement de la led lorsque le beacon est reçu. Ce test permet de valider le précédent sans utiliser le port série) & \greencheck\\\hline
 \textbf{Joystick}\\
-Test de chaque bouton (un à la fois) & \greencheck\\
-Appui et relâchement du joystick dans un seul cycle\footnotemark & \greencheck\\
-Valeurs correctes lors du remplissage de la queue d'événements\footnotemark & \redcross\\\hline
+Test de flanc (mettre le testbench en mode "continuous" et appuyer sur le bouton sans le relâcher). On devrait observer le bouton correspondant s'allumer puis s'éteindre au beacon suivant le relâchement) & \greencheck\\
+Test de flanc sur tous les boutons (un seul à la fois) & \greencheck\\
+Test d'appui puis relâchement dans un seul cycle (le bouton ne devrait pas s'allumer dans le testbench) & \greencheck\\
+Valeurs correctes lors du remplissage de la queue d'événements (appuis à répétition sur le joystick lors d'un cycle) & \redcross & Comme la queue d'événements est effacée à chaque envoi des données, il est normal que des données soient perdues si trop d'événements ont étés enregistrés.\\\hline
 \textbf{Accéléromètre}\\
-Test en déplaçant la fenêtre en haut à droite et en haut à gauche & \greencheck\\\hline
+Test en déplaçant la fenêtre en haut à droite et en haut à gauche (les valeurs de l'accéléromètre devraient changer et leurs valeurs doivent être répétables en fonction de la position de la fenêtre) & \greencheck\\\hline
 \textbf{svPDU}\\
-Formation correcte du header & \greencheck\\
-Données correctes & \greencheck\\\hline
+Formation correcte du header (vérifier si il n'y a pas d'erreurs dans le testbench)& \greencheck\\
+Données correctes (affichage des données dans le testbench) & \greencheck\\\hline
 \textbf{evPDU}\\
-Formation correcte du header & \greencheck\\
-Données correctes & \greencheck\\\hline
+Formation correcte du header (vérifier si il n'y a pas d'erreurs dans le testbench)& \greencheck\\
+Données correctes (affichage des données dans le testbench) & \greencheck\\\hline
 
 \textbf{Transmission}\\
-Aucune erreur lors de la réponse vide & \greencheck\\
 Aucune erreur lors de l'envoi d'un svPDU & \greencheck\\
 Aucune erreur lors de l'envoi de svPDU et d'un ou plusieurs evPDU & \greencheck\\
-Envoi des données au bon moment (timeslot) & \redcross & Erreurs occasionnelles
+Envoi des données au bon moment (timeslot) & \redcross & Erreurs occasionnelles due à la transmission entre les applications et au système d'exploitation
 \end{tabular}
 \end{center}
-Comme la queue d'événements est effacée à chaque envoi des données, il est normal que des données soient perdues si trop d'événements ont étés enregistrés.
 
-
-\footnotetext[1]{L'appui du joystick ne devrait pas être affiché dans le testbench}
-\footnotetext[2]{Testé en appuyant à répétition lors d'un cycle}
 
 
 
@@ -47,31 +52,30 @@ Comme la queue d'événements est effacée à chaque envoi des données, il est 
 
 \subsection{Carte}
 \begin{center}
-\begin{tabular}{lcl}
+\begin{tabular}{p{9cm}cp{5.5cm}}
 Description & État & Remarque\\\hline\hline
 \textbf{Beacon}\\
-Réception du beacon\footnotemark & \greencheck \\\hline
+Réception du beacon (envoi de données dans le port série lorsque le beacon est reçu)\footnotemark & \greencheck \\\hline
 \textbf{Joystick}\\
-Test de chaque bouton (un à la fois) & \greencheck\\
-Test de plusieurs boutons simultanés & \greencheck\\
-Appui et relâchement du joystick dans un seul cycle & \greencheck\\
-Valeurs correctes lors du remplissage de la queue d'événements & \redcross\\
+Test de flanc (mettre le testbench en mode "continuous" et appuyer sur le bouton sans le relâcher). On devrait observer le bouton correspondant s'allumer puis s'éteindre au beacon suivant le relâchement) & \greencheck\\
+Test de flanc sur tous les boutons (un seul à la fois) & \greencheck\\
+Test d'appui puis relâchement dans un seul cycle (le bouton ne devrait pas s'allumer dans le testbench) & \greencheck\\
+Valeurs correctes lors du remplissage de la queue d'événements (appuis à répétition sur le joystick lors d'un cycle) & \redcross & voir commentaire dans \ref{sec_simulation}\\\hline
 
-\hline
 \textbf{Accéléromètre}\\
-Positionnement de la carte sur son côté / à l'envers & \greencheck\\\hline
+Positionnement de la carte sur son côté / à l'envers (les trois mesures doivent s'échanger les valeurs en fonction de l'orientation de la carte à condition qu'elle soit posée "droite")& \greencheck\\
+Vérifier que les valeurs de l'accéléromètre sont cohérentes avec les autres cartes des collègues (toutes les mesures doivent être quasi-identiques à condition que les cartes soient orientées de la même manière) & \greencheck\\\hline
 \textbf{svPDU}\\
-Formation correcte du header & \greencheck\\
+Formation correcte du header & \greencheck & Voir \ref{sec_simulation}\\
 Données correctes & \greencheck\\\hline
 \textbf{evPDU}\\
 Formation correcte du header & \greencheck\\
 Données correctes & \greencheck\\\hline
 
 \textbf{Transmission}\\
-Aucune erreur lors de la réponse vide & \greencheck\\
 Aucune erreur lors de l'envoi d'un svPDU & \greencheck\\
 Aucune erreur lors de l'envoi de svPDU et d'un ou plusieurs evPDU & \greencheck\\
-Envoi des données au bon moment (timeslot) & \redcross & Erreurs occasionnelles
+Envoi des données au bon moment (timeslot) & \redcross & Erreurs occasionnelles dues à des pertes (perturbations du WiFi) de paquets et/ou des erreurs de timing dans la station de base et/ou les stations subordonnées.
 \end{tabular}
 \end{center}
 
