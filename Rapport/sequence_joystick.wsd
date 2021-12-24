@@ -1,0 +1,8 @@
+@startuml
+
+
+group joystick event
+
+end
+
+@enduml

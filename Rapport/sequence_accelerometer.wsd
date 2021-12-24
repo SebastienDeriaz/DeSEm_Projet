@@ -1,0 +1,15 @@
+@startuml
+
+group Beacon received
+
+end group
+
+
+group Timeslot
+
+
+end group
+
+
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml
+
+group event
+Joystick -> Joystick : timer
+Joystick -> JoystickApplication : onPositionChanged()
+JoystickApplication --> NetworkEntity : eventReceived() (asynchronous)
+note right
+save to event queue
+end note
+end
+
+
+group beacon reception
+/'DeseNETEntity -> PhyEntity : PHY_Transceiver(On)
+DeseNETEntity <-- PhyEntity'/
+
+NetworkInterfaceDriver -> NetworkEntity : onReceive()
+NetworkEntity -> ledController : instance().flashLed(0)
+
+NetworkEntity -> TimeSlotManager : onBeaconReceived()
+activate TimeSlotManager
+
+group get sample values
+NetworkEntity -> AccelerometerApplication : svPublishIndication()
+NetworkEntity <-- AccelerometerApplication : save to buffer
+end
+
+note over NetworkEntity
+Build MPDU (sample values + events)
+end note
+
+
+TimeSlotManager -> TimeSlotManager : slot timer
+TimeSlotManager --> NetworkEntity : onTimeSlotSignal
+deactivate TimeSlotManager 
+
+NetworkEntity --> NetworkInterfaceDriver : Send MPDU (transceiver() << mpdu)
+NetworkInterfaceDriver -> NetworkInterfaceDriver : transmit(MPDU)
+end
+
+@enduml
