@@ -19,3 +19,4 @@ desenet-sensor/ide-stm32cubeide/platform/nucleo-stm32l476rg/platform-config.h
 *.toc
 *.fdb_latexmk
 *.fls
+Rendu/*
