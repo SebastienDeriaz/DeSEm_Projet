@@ -45,6 +45,16 @@ La création d'un MPDU (pour l'envoi à la station de base) se fait de la maniè
 \item Finalisation
 \end{enumerate}
 Une fois qu'un MPDU est prêt, il est envoyé au moment où le temps du slot est atteint (slot timer).\\
+\subsubsection{svPDU}
+Pour stocker les données mesurées, on commence par vérifier si le groupe de mesures (\verb!svGroup!) est demandé dans le beacon.\\
+Si c'est le cas, on appelle la méthode \verb!svPublishIndication! de chaque application en passant un buffer. L'application va écrire les données dans ce buffer puis retourner le nombre de bytes écris. On appelle ensuite la méthode \verb!commit! du MPDU qui va créer le header pour ces données. On recommence cette séquence pour chaque svGroup.
+\subsubsection{evPDU}
+Une fois que tous les svPDU sont stockés, on rempli le MPDU avec des evPDU (tant qu'il y en a ou jusqu'à ce que le MPDU soit plein). Pour cela on va lire une liste des événements (\verb!eventsQueue!) et ajouter chaque élément dans l'ordre.\\
+Si le MPDU est plein, on supprime les événements restants (il est possible de perdre des changements d'état sur le joystick).
+\subsubsection{Envoi}
+Lorsque le timeslot est atteint (Temps du slot $\times$ numéro de slot en millisecondes), on envoie le MPDU à la station de base.\\
+On utilise la fonction \verb!onTimeSlotSignal! en vérifiant que le signal émis est \verb!OWN_SLOT_START!. Si cette vérification n'est pas faite, le MPDU sera envoyé plusieurs fois (lors d'autres signaux qui ne correspondent pas).
+\pagebreak
 \subsection{Classe \texttt{JoystickApplication}}
 La classe \verb!JoystickApplication! a été copiée à partir de la classe \verb!AccelerometerApplication!
 \begin{figure}[H]
@@ -61,19 +71,9 @@ La classe \verb!JoystickApplication! a été copiée à partir de la classe \ver
 \item \verb!onPositionChange()! : méthode appelée lorsqu'un mouvement est détecté sur le joystick (vient de \verb!IJoystick!)
 \item \verb!joystick()! méthode permettant d'obtenir le singleton \verb!joystick! (depuis la \verb!Factory!)
 \end{enumerate}
-\pagebreak
-\subsubsection{svPDU}
-Pour stocker les données mesurées, on commence par vérifier si le groupe de mesures (\verb!svGroup!) est demandé dans le beacon.\\
-Si c'est le cas, on appelle la méthode \verb!svPublishIndication! de chaque application en passant un buffer. L'application va écrire les données dans ce buffer puis retourner le nombre de bytes écris. On appelle ensuite la méthode \verb!commit! du MPDU qui va créer le header pour ces données. On recommence cette séquence pour chaque svGroup.
-\subsubsection{evPDU}
-Une fois que tous les svPDU sont stockés, on rempli le MPDU avec des evPDU (tant qu'il y en a ou jusqu'à ce que le MPDU soit plein). Pour cela on va lire une liste des événements (\verb!eventsQueue!) et ajouter chaque élément dans l'ordre.\\
-Si le MPDU est plein, on supprime les événements restants (il est possible de perdre des changements d'état sur le joystick).
-\subsubsection{Envoi}
-Lorsque le timeslot est atteint (Temps du slot $\times$ numéro de slot en millisecondes), on envoie le MPDU à la station de base.\\
-On utilise la fonction \verb!onTimeSlotSignal! en vérifiant que le signal émis est \verb!OWN_SLOT_START!. Si cette vérification n'est pas faite, le MPDU sera envoyé plusieurs fois (lors d'autres signaux qui ne correspondent pas).
-
-
-
-
-
+\begin{figure}[H]
+\centering
+\includegraphics[scale=0.5]{out/SM.eps}
+\caption{Machine d'état de \texttt{JoystickApplication}}
+\end{figure}
 \end{document}
