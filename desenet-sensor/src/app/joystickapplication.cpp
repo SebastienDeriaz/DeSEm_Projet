@@ -53,7 +53,6 @@ EventStatus JoystickApplication::processEvent() {
 
     switch (_currentState) {
         case STATE_UNKOWN:
-        case STATE_INITIAL:
             if (getCurrentEvent()->getEventType() == IXFEvent::Initial) {
                 newState = STATE_ROOT;  // Move to state ROOT
             }
@@ -73,8 +72,6 @@ EventStatus JoystickApplication::processEvent() {
         switch (newState) {
             case STATE_ROOT:
             case STATE_UNKOWN:
-            case STATE_INITIAL:
-                break;
             case STATE_POSITION_CHANGED:
                 position = joystick().position();
                 joystickData = position.pressedButtons;

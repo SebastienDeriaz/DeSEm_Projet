@@ -55,9 +55,8 @@ protected:	// State machine stuff
 	typedef enum
 	{
 		STATE_UNKOWN = 0,			///< Unknown state
-		STATE_INITIAL = 1,			///< Initial state
-		STATE_ROOT = 2,				///< State where to wait for further events
-		STATE_POSITION_CHANGED = 3
+		STATE_ROOT = 1,				///< State where to wait for further events
+		STATE_POSITION_CHANGED = 2
 	} eMainState;
 
 	eMainState _currentState;		///< Attribute indicating currently active state
