@@ -1,0 +1,36 @@
+@startuml
+
+
+skinparam classAttributeIconSize 0
+
+
+class JoystickApplication {
+    + initialize()
+    + start()
+    # svSyncIndication()
+    # processEvent()
+    # onPositionChange()
+    # joystick()
+    # _currentState
+}
+
+class AbstractApplication {
+    ...
+}
+
+class XFReactive {
+    ...
+}
+
+class IJoystickObserver {
+    ...
+}
+
+JoystickApplication -up-|> XFReactive
+JoystickApplication -up-|> AbstractApplication
+JoystickApplication -up-|> IJoystickObserver
+
+
+
+
+@enduml

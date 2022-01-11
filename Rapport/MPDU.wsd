@@ -1,0 +1,32 @@
+@startuml
+
+
+skinparam classAttributeIconSize 0
+
+
+class MPDU {
+    + reset()
+    + pduBuffer
+    + pduBufferPosition
+    + remainingBytes()
+    + writePDU(SharedbyteBuffer)
+    + commitPDU(ePDUHeader)
+    + finalize()
+    - setSensorID(ID)
+}
+
+class Beacon {
+    ...
+}
+
+class Frame {
+    ...
+}
+
+MPDU -up-|> Frame
+Beacon -up-|> Frame
+
+
+
+
+@enduml
