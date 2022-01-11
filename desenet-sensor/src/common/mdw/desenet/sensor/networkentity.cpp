@@ -105,12 +105,13 @@ void NetworkEntity::onReceive(NetworkInterfaceDriver& driver,
                 svPDU.fields.type = desenet::MPDU::ePDUType::SV;
                 svPDU.fields.length =
                     i->app.svPublishIndication(i->group, mpdu.pduBuffer);
+                // Commit PDU only if data has been written (always the case in theory)
                 if (svPDU.fields.length > 0)
                     mpdu.commitPDU(svPDU);
                 else
                     break;
             }
-        }
+        }  
 
         // Add events to the MPDU (as much as possible)
         desenet::MPDU::ePDUHeader evPDU;
